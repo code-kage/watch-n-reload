@@ -1,0 +1,4 @@
+build/
+dist/
+test.py
+watcher_codekage.egg-info

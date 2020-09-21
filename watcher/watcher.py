@@ -1,12 +1,13 @@
 import sys
+
+sys.path.insert(1, '/home/codekage/workspace/transfer-pi/logger')
+
 import subprocess
 import os
 import time
-import logger as  l
+import logger 
 
 from watchdog.observers import Observer
-
-logger = l.Logger()
 
 config = {
     "trigger":[],
@@ -29,7 +30,7 @@ class HandleAll(object):
         self.proc = proc
 
     def _runscripts(self,scripts):
-        logger.log("Running Scripts",l.MESSAGE)
+        logger.message("Running Scripts")
         for i in scripts:
             os.system(i)
 
@@ -37,10 +38,11 @@ class HandleAll(object):
         self.process = process
 
     def dispatch(self, event):
-        logger.log(f"event type : {event.event_type}",l.MESSAGE)
-        logger.log(f"file : {event.src_path}",l.MESSAGE)
-        logger.log("reloading",l.WARNING)
-      
+        logger.message(f"event type : {event.event_type}")
+        logger.message(f"file : {event.src_path}")
+        logger.warning("reloading",)
+        self.proc.stop()
+        self.proc.start()
         
 class HandleAny(object):
     process = None
@@ -48,9 +50,8 @@ class HandleAny(object):
         self.proc = proc
         self.files = files
         
-
     def _runscripts(self,scripts):
-        logger.log("Running Scripts",l.MESSAGE)
+        logger.message("Running Scripts")
         for i in scripts:
             os.system(i)        
 
@@ -58,13 +59,15 @@ class HandleAny(object):
         self.process = process
 
     def dispatch(self, event):
-        logger.log(f"event type : {event.event_type}",l.MESSAGE)
-        logger.log(f"file : {event.src_path}",l.MESSAGE)
+        logger.message(f"event type : {event.event_type}",)
+        logger.message(f"file : {event.src_path}")
         if sum(map(lambda x:x in event.src_path,self.files)):
-            logger.log("reloading",l.WARNING)
+            logger.warning("reloading")
+            self.proc.stop()
+            self.proc.start()
         else:
-            logger.log("not reloading",l.WARNING)
-
+            logger.warning("not reloading")
+        
 
 class BUILD(object):
     def __init__(
@@ -129,12 +132,12 @@ class Watcher:
         self.observer.schedule(self.event_handler, path, recursive=True)
 
     def runscripts(self,scripts):
-        logger.log("Running Scripts",l.MESSAGE)
+        logger.message("Running Scripts")
         for i in scripts:
             os.system(i)
 
     def start(self,):
-        logger.log(f"Started Watching {self.proc}",l.MESSAGE)
+        logger.message(f"Started Watching {self.proc}")
         self.proc.start()    
 
 
@@ -144,7 +147,7 @@ class Watcher:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            logger.log("Killing Process, Exiting Loop",l.ERROR)
+            logger.error("Killing Process, Exiting Loop")
             self.proc.stop()
             self.observer.stop()
         self.observer.join()

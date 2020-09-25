@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Viraj Patel",
     author_email="vptl185@gmail.com",
-    description="A Simple Command Line Logger.",
+    description="A Simple Command Line Hot Reload Utility.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Transfer-PI/watcher",

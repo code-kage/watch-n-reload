@@ -1,13 +1,10 @@
-import sys
-
-sys.path.insert(1, '/home/codekage/workspace/transfer-pi/logger')
-
 import subprocess
 import os
 import time
-import logger 
+import logger
 
 from watchdog.observers import Observer
+
 
 config = {
     "trigger":[],

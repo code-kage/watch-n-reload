@@ -1,4 +1,5 @@
 build/
 dist/
 test.py
+*__pycache__*
 watcher_codekage.egg-info

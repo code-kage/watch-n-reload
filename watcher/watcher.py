@@ -1,11 +1,11 @@
 import subprocess
 import os
 import time
-import logger
 
+from logger import Logger
 from watchdog.observers import Observer
 
-
+logger = Logger()
 config = {
     "trigger":[],
     "trigger_type":"process",
